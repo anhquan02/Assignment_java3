@@ -5,6 +5,7 @@
  */
 package quanlydiem;
 
+import model.Grade;
 import pattern.ReadExcel;
 import java.io.File;
 import java.io.FileInputStream;

@@ -5,6 +5,7 @@
  */
 package DangNhap;
 
+import model.Users;
 import pattern.DAO;
 import java.sql.*;
 import java.util.ArrayList;

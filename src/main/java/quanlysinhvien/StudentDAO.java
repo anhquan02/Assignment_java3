@@ -5,10 +5,12 @@
  */
 package quanlysinhvien;
 
+import model.Student;
 import pattern.DAO;
 import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import util.JDBCUtils;
 
 /**
  *
@@ -27,7 +29,7 @@ public class StudentDAO implements DAO<Student> {
 
     @Override
     public boolean create(Student t) {
-        try (Connection conn = DriverManager.getConnection(url, "sa", "123")) {
+        try (Connection conn =JDBCUtils.getConnection()) {
             PreparedStatement pst = conn.prepareStatement("insert into student values(?,?,?,?,?,?,?)");
             pst.setString(1, t.getMasv());
             pst.setString(2, t.getHoTen());
@@ -55,7 +57,7 @@ public class StudentDAO implements DAO<Student> {
 
     @Override
     public void read() {
-        try (Connection conn = DriverManager.getConnection(url, "sa", "123")) {
+        try (Connection conn = JDBCUtils.getConnection()) {
             Statement st = conn.createStatement();
             String query = "Select * from student";
             ResultSet rs = st.executeQuery(query);
@@ -85,7 +87,7 @@ public class StudentDAO implements DAO<Student> {
 
     @Override
     public void update(Student t, int index) {
-        try (Connection conn = DriverManager.getConnection(url, "sa", "123")) {
+        try (Connection conn =JDBCUtils.getConnection()) {
             PreparedStatement pst = conn.prepareStatement("update student set hoten=?,email=?,sdt=?,gioiTinh=?,diachi=?,hinh=? where masv=?");
             pst.setString(1, t.getHoTen());
             pst.setString(2, t.getEmail());
@@ -111,7 +113,7 @@ public class StudentDAO implements DAO<Student> {
 
     @Override
     public void delete(Student t) {
-        try (Connection conn = DriverManager.getConnection(url, "sa", "123")) {
+        try (Connection conn = JDBCUtils.getConnection()) {
             PreparedStatement pst = conn.prepareStatement("delete student where masv=?");
             pst.setString(1, t.getMasv());
             pst.executeUpdate();

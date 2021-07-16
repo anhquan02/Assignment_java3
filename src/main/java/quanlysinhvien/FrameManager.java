@@ -5,6 +5,7 @@
  */
 package quanlysinhvien;
 
+import model.Student;
 import java.util.ArrayList;
 import pattern.DAO;
 

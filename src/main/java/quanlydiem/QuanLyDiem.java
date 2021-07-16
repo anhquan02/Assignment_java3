@@ -5,6 +5,7 @@
  */
 package quanlydiem;
 
+import model.Grade;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;

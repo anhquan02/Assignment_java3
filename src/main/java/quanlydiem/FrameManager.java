@@ -5,6 +5,7 @@
  */
 package quanlydiem;
 
+import model.Grade;
 import java.util.ArrayList;
 import pattern.DAO;
 

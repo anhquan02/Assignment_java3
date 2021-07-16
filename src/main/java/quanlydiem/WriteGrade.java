@@ -5,6 +5,7 @@
  */
 package quanlydiem;
 
+import model.Grade;
 import pattern.WriteExcel;
 import java.io.FileOutputStream;
 import java.io.IOException;

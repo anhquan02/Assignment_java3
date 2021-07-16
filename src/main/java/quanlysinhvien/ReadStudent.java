@@ -5,6 +5,7 @@
  */
 package quanlysinhvien;
 
+import model.Student;
 import pattern.ReadExcel;
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,7 +22,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import quanlydiem.Grade;
+import model.Grade;
 
 /**
  *

@@ -5,10 +5,12 @@
  */
 package quanlydiem;
 
+import model.Grade;
 import pattern.DAO;
 import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import util.JDBCUtils;
 
 /**
  *
@@ -26,7 +28,7 @@ public class GradeDAO implements DAO<Grade> {
 
     @Override
     public boolean create(Grade t) {
-        try (Connection conn = DriverManager.getConnection(url, "sa", "123")) {
+        try (Connection conn = JDBCUtils.getConnection()) {
             PreparedStatement pst = conn.prepareStatement("insert into grade values(?,?,?,?)");
             pst.setString(1, t.getMasv());
             pst.setFloat(2, t.getTiengAnh());
@@ -45,7 +47,7 @@ public class GradeDAO implements DAO<Grade> {
 
     @Override
     public void read() {
-        try (Connection conn = DriverManager.getConnection(url, "sa", "123")) {
+        try (Connection conn = JDBCUtils.getConnection()) {
             Statement st = conn.createStatement();
             String query = "select grade.masv,hoten,tienganh,tinhoc,gdtc from student join grade on student.masv = grade.masv";
             ResultSet rs = st.executeQuery(query);
@@ -63,7 +65,7 @@ public class GradeDAO implements DAO<Grade> {
 
     @Override
     public void update(Grade t, int index) {
-        try (Connection conn = DriverManager.getConnection(url, "sa", "123")) {
+        try (Connection conn = JDBCUtils.getConnection()) {
             PreparedStatement pst = conn.prepareStatement("update grade set tienganh= ?,tinhoc=?,gdtc=? where masv=?");
             pst.setFloat(1, t.getTiengAnh());
             pst.setFloat(2, t.getTinHoc());
@@ -80,7 +82,7 @@ public class GradeDAO implements DAO<Grade> {
 
     @Override
     public void delete(Grade t) {
-        try (Connection conn = DriverManager.getConnection(url, "sa", "123")) {
+        try (Connection conn = JDBCUtils.getConnection()) {
             PreparedStatement pst = conn.prepareStatement("delete grade where masv=?");
             pst.setString(1, t.getMasv());
             pst.executeUpdate();
