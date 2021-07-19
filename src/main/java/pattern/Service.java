@@ -9,6 +9,6 @@ package pattern;
  *
  * @author Mypc
  */
-public interface Service {
+public interface Service{
     
 }

@@ -17,8 +17,6 @@ import javax.swing.JOptionPane;
  */
 public class UsersDAO implements DAO<Users>{
     ArrayList<Users>lst ;
-    String url = "jdbc:sqlserver://localhost:1433;databaseName=Assignment";
-
     public UsersDAO() {
         lst= new ArrayList<>();
         read();
@@ -31,7 +29,7 @@ public class UsersDAO implements DAO<Users>{
 
     @Override
     public void read() {
-        try (Connection conn = DriverManager.getConnection(url, "sa", "123")) {
+        try (Connection conn = util.JDBCUtils.getConnection()) {
             Statement st = conn.createStatement();
             String query = "Select * from users";
             ResultSet rs = st.executeQuery(query);

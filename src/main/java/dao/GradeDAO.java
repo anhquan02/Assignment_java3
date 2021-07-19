@@ -19,7 +19,6 @@ import util.JDBCUtils;
 public class GradeDAO implements DAO<Grade> {
 
     ArrayList<Grade> lst;
-    String url = "jdbc:sqlserver://localhost:1433;databaseName=Assignment";
 
     public GradeDAO() {
         lst = new ArrayList<>();

@@ -193,7 +193,7 @@ public class DangNhap extends javax.swing.JInternalFrame {
         try {
             int chon = JOptionPane.showConfirmDialog(this, "Cancel", "Cancel", JOptionPane.YES_NO_OPTION);
             if (chon == JOptionPane.YES_OPTION) {
-                System.exit(0);
+                this.dispose();
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error", "Error", JOptionPane.ERROR_MESSAGE);

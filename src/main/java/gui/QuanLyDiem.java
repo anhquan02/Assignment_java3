@@ -8,7 +8,7 @@ package gui;
 import dao.GradeDAO;
 import service.WriteGrade;
 import service.ReadGrade;
-import service.GradeService;
+import service.ServiceGrade;
 import model.Grade;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
 public class QuanLyDiem extends javax.swing.JInternalFrame {
 
     GradeDAO dbManager;
-    GradeService frameManager;
+    ServiceGrade frameManager;
     DefaultTableModel model;
 
     /**
@@ -32,7 +32,7 @@ public class QuanLyDiem extends javax.swing.JInternalFrame {
 //        this.setLocationRelativeTo(null);
         model = (DefaultTableModel) tblSinhVien.getModel();
         dbManager = new GradeDAO();
-        frameManager = new GradeService();
+        frameManager = new ServiceGrade();
         frameManager.lst = dbManager.getAll();
         fillToTable();
 //        new WriteGrade(frameManager.getAll(), "Grade.xlsx");
@@ -623,41 +623,6 @@ public class QuanLyDiem extends javax.swing.JInternalFrame {
             return;
         }
     }//GEN-LAST:event_btnDActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(QuanLyDiem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(QuanLyDiem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(QuanLyDiem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(QuanLyDiem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new QuanLyDiem().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnD;

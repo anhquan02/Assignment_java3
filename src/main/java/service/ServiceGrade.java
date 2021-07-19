@@ -13,10 +13,10 @@ import pattern.DAO;
  *
  * @author Mypc
  */
-public class GradeService implements DAO<Grade>{
+public class ServiceGrade implements DAO<Grade>{
     public ArrayList<Grade>lst ;
 
-    public GradeService() {
+    public ServiceGrade() {
         lst = new ArrayList<>();
     }
     
