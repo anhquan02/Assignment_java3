@@ -26,5 +26,10 @@
             <artifactId>poi-ooxml</artifactId>
             <version>3.15</version>
         </dependency>
+        <dependency>
+            <groupId>io.github.cdimascio</groupId>
+            <artifactId>java-dotenv</artifactId>
+            <version>5.2.2</version>
+        </dependency>
     </dependencies>
 </project>
