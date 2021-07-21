@@ -13,6 +13,8 @@ import model.Grade;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import pattern.DAO;
+import pattern.Service;
 
 /**
  *
@@ -20,8 +22,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class QuanLyDiem extends javax.swing.JInternalFrame {
 
-    GradeDAO dao;
-    ServiceGrade service;
+    DAO<Grade> dao;
+    Service<Grade> service;
     DefaultTableModel model;
 
     /**
@@ -29,13 +31,11 @@ public class QuanLyDiem extends javax.swing.JInternalFrame {
      */
     public QuanLyDiem() {
         initComponents();
-//        this.setLocationRelativeTo(null);
         model = (DefaultTableModel) tblSinhVien.getModel();
         dao = new GradeDAO();
         service = new ServiceGrade();
-        service.lst = dao.getAll();
+        service.setList(dao.getAll());
         fillToTable();
-//        new WriteGrade(service.getAll(), "Grade.xlsx");
     }
 
     public void fillToTable() {
@@ -467,9 +467,8 @@ public class QuanLyDiem extends javax.swing.JInternalFrame {
             float gdtc = Float.parseFloat(txtGDTC.getText());
             Grade gr = new Grade(masv, hoTen, tienganh, tinhoc, gdtc);
             if (dao.create(gr)) {
-                service.create(gr);
+                service.addRow(model, gr);
                 JOptionPane.showMessageDialog(rootPane, "Thêm thành công");
-                fillToTable();
                 txtMaSV.setEditable(false);
                 return;
             }
@@ -494,9 +493,8 @@ public class QuanLyDiem extends javax.swing.JInternalFrame {
             int chon = JOptionPane.showConfirmDialog(this, "Delete", "Delete", JOptionPane.YES_NO_OPTION);
             if (chon == JOptionPane.YES_OPTION) {
 //                dao.delete(dao.getAll().get(index));
-                service.delete(service.getAll().get(index));
+                service.removeRow(model, index);
                 index = -1;
-                fillToTable();
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error", "Error", JOptionPane.ERROR_MESSAGE);
@@ -522,7 +520,7 @@ public class QuanLyDiem extends javax.swing.JInternalFrame {
                 t.setTinHoc(tinHoc);
                 t.setGDTC(gdtc);
                 dao.update(t, index);
-                service.update(t, index);
+                service.updateRow(model, t, index);
                 showDetail(t);
                 JOptionPane.showMessageDialog(this, "Cập nhật thành công");
             } else {
@@ -604,7 +602,7 @@ public class QuanLyDiem extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         try {
             ReadGrade reader = new ReadGrade();
-            service.lst = (ArrayList<Grade>) reader.readExcel("Grade.xlsx");
+            service.setList((ArrayList<Grade>) reader.readExcel("Grade.xlsx"));
             fillToTable();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error", "Error", JOptionPane.ERROR_MESSAGE);

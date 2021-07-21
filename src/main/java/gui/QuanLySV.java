@@ -16,15 +16,17 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import pattern.DAO;
+import pattern.Service;
 
 /**
  *
  * @author Mypc
  */
 public class QuanLySV extends javax.swing.JInternalFrame {
-
-    ServiceStudent service;
-    StudentDAO dao;
+    
+    Service<Student> service;
+    DAO<Student> dao;
     DefaultTableModel model;
 
     /**
@@ -35,19 +37,19 @@ public class QuanLySV extends javax.swing.JInternalFrame {
 //        this.setLocationRelativeTo(null);
         dao = new StudentDAO();
         service = new ServiceStudent();
-        service.lst = dao.getAll();
+        service.setList(dao.getAll());
         model = (DefaultTableModel) tblSinhVien.getModel();
         fillToTable();
 //        new WriteStudent(service.getAll(), "Student.xlsx");
     }
-
+    
     public void fillToTable() {
         model.setRowCount(0);
         for (Student st : service.getAll()) {
             model.addRow(new Object[]{st.getMasv(), st.getHoTen(), st.getEmail(), st.getSdt(), st.getGioiTinh(), st.getDiaChi(), st.getHinh()});
         }
     }
-
+    
     public void showDetail(Student t) {
         txtMaSV.setText(t.getMasv());
         txtDiaChi.setText(t.getDiaChi());
@@ -332,7 +334,7 @@ public class QuanLySV extends javax.swing.JInternalFrame {
         try {
             showDetail(new Student());
             txtMaSV.setEditable(true);
-            index =-1;
+            index = -1;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -357,12 +359,11 @@ public class QuanLySV extends javax.swing.JInternalFrame {
             String diaChi = txtDiaChi.getText();
             String hinh = "3.jpg";
             Student t = new Student(masv, hoTen, email, sdt, gioiTinh, diaChi, hinh);
-            service.create(t);
+            service.addRow(model, t);
             dao.create(t);
             JOptionPane.showMessageDialog(rootPane, "Thêm thành công");
-            fillToTable();
             txtMaSV.setEditable(false);
-
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -378,9 +379,8 @@ public class QuanLySV extends javax.swing.JInternalFrame {
             int chon = JOptionPane.showConfirmDialog(this, "Delete", "Delete", JOptionPane.YES_NO_OPTION);
             if (chon == JOptionPane.YES_OPTION) {
 //                dao.delete(dao.getAll().get(index));
-                service.delete(service.getAll().get(index));
+                service.removeRow(model, index);
                 index = -1;
-                fillToTable();
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error", "Error", JOptionPane.ERROR_MESSAGE);
@@ -407,11 +407,10 @@ public class QuanLySV extends javax.swing.JInternalFrame {
             String hinh = service.getAll().get(index).getHinh();
             Student t = new Student(masv, hoTen, email, sdt, gioiTinh, diaChi, hinh);
             dao.update(t, index);
-            service.update(t, index);
+            service.updateRow(model, t, index);
             index = -1;
             JOptionPane.showMessageDialog(rootPane, "Cập nhật thành công");
-            fillToTable();
-
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -433,7 +432,8 @@ public class QuanLySV extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         try {
             ReadStudent reader = new ReadStudent();
-            service.lst = (ArrayList<Student>) reader.readExcel("Student.xlsx");
+//            service.lst = (ArrayList<Student>) reader.readExcel("Student.xlsx");
+            service.setList((ArrayList<Student>) reader.readExcel("Student.xlsx"));
             fillToTable();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error", "Error", JOptionPane.ERROR_MESSAGE);

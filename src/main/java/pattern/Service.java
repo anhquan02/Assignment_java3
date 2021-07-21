@@ -5,10 +5,18 @@
  */
 package pattern;
 
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Mypc
  */
-public interface Service {
-    
+public interface Service<T> {
+    public void fillToTable(DefaultTableModel model ,ArrayList<T> lst);
+    public void addRow(DefaultTableModel model, T t);
+    public void removeRow(DefaultTableModel model, int i);
+    public void updateRow(DefaultTableModel model, T t,int i);
+    public ArrayList<T> getAll();
+    public void setList(ArrayList<T> lst);
 }
