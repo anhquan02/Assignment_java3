@@ -8,6 +8,7 @@ package service;
 import model.Grade;
 import java.util.ArrayList;
 import pattern.DAO;
+import pattern.Service;
 
 /**
  *

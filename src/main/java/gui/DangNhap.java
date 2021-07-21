@@ -20,7 +20,7 @@ import javax.swing.JTextField;
 public class DangNhap extends javax.swing.JInternalFrame {
 
     JDesktopPane desktopPane;
-    UsersDAO ql;
+    UsersDAO dao;
 
     /**
      * Creates new form DangNhap
@@ -29,7 +29,7 @@ public class DangNhap extends javax.swing.JInternalFrame {
 
     public DangNhap(JDesktopPane desktopPane) {
         initComponents();
-        ql = new UsersDAO();
+        dao = new UsersDAO();
         this.desktopPane = desktopPane;
     }
 
@@ -153,7 +153,7 @@ public class DangNhap extends javax.swing.JInternalFrame {
         }
         String username = tf.getText();
         String password = pf.getText();
-        for (Users x : ql.getAll()) {
+        for (Users x : dao.getAll()) {
             if (x.getUsername().equalsIgnoreCase(username) && x.getPassword().equalsIgnoreCase(password)) {
                 return x.getRole();
             }

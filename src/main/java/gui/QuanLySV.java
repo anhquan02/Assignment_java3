@@ -23,8 +23,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class QuanLySV extends javax.swing.JInternalFrame {
 
-    ServiceStudent frameManager;
-    StudentDAO dbManager;
+    ServiceStudent service;
+    StudentDAO dao;
     DefaultTableModel model;
 
     /**
@@ -33,17 +33,17 @@ public class QuanLySV extends javax.swing.JInternalFrame {
     public QuanLySV() {
         initComponents();
 //        this.setLocationRelativeTo(null);
-        dbManager = new StudentDAO();
-        frameManager = new ServiceStudent();
-        frameManager.lst = dbManager.getAll();
+        dao = new StudentDAO();
+        service = new ServiceStudent();
+        service.lst = dao.getAll();
         model = (DefaultTableModel) tblSinhVien.getModel();
         fillToTable();
-//        new WriteStudent(frameManager.getAll(), "Student.xlsx");
+//        new WriteStudent(service.getAll(), "Student.xlsx");
     }
 
     public void fillToTable() {
         model.setRowCount(0);
-        for (Student st : frameManager.getAll()) {
+        for (Student st : service.getAll()) {
             model.addRow(new Object[]{st.getMasv(), st.getHoTen(), st.getEmail(), st.getSdt(), st.getGioiTinh(), st.getDiaChi(), st.getHinh()});
         }
     }
@@ -357,8 +357,8 @@ public class QuanLySV extends javax.swing.JInternalFrame {
             String diaChi = txtDiaChi.getText();
             String hinh = "3.jpg";
             Student t = new Student(masv, hoTen, email, sdt, gioiTinh, diaChi, hinh);
-            frameManager.create(t);
-            dbManager.create(t);
+            service.create(t);
+            dao.create(t);
             JOptionPane.showMessageDialog(rootPane, "Thêm thành công");
             fillToTable();
             txtMaSV.setEditable(false);
@@ -377,8 +377,8 @@ public class QuanLySV extends javax.swing.JInternalFrame {
             }
             int chon = JOptionPane.showConfirmDialog(this, "Delete", "Delete", JOptionPane.YES_NO_OPTION);
             if (chon == JOptionPane.YES_OPTION) {
-//                dbManager.delete(dbManager.getAll().get(index));
-                frameManager.delete(frameManager.getAll().get(index));
+//                dao.delete(dao.getAll().get(index));
+                service.delete(service.getAll().get(index));
                 index = -1;
                 fillToTable();
             }
@@ -404,10 +404,10 @@ public class QuanLySV extends javax.swing.JInternalFrame {
             String sdt = txtSDT.getText();
             String gioiTinh = rdoNu.isSelected() ? "Nữ" : "Nam";
             String diaChi = txtDiaChi.getText();
-            String hinh = frameManager.getAll().get(index).getHinh();
+            String hinh = service.getAll().get(index).getHinh();
             Student t = new Student(masv, hoTen, email, sdt, gioiTinh, diaChi, hinh);
-            dbManager.update(t, index);
-            frameManager.update(t, index);
+            dao.update(t, index);
+            service.update(t, index);
             index = -1;
             JOptionPane.showMessageDialog(rootPane, "Cập nhật thành công");
             fillToTable();
@@ -422,7 +422,7 @@ public class QuanLySV extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         try {
             index = tblSinhVien.getSelectedRow();
-            showDetail(frameManager.getAll().get(index));
+            showDetail(service.getAll().get(index));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -433,7 +433,7 @@ public class QuanLySV extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         try {
             ReadStudent reader = new ReadStudent();
-            frameManager.lst = (ArrayList<Student>) reader.readExcel("Student.xlsx");
+            service.lst = (ArrayList<Student>) reader.readExcel("Student.xlsx");
             fillToTable();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error", "Error", JOptionPane.ERROR_MESSAGE);
@@ -444,7 +444,7 @@ public class QuanLySV extends javax.swing.JInternalFrame {
     private void btnDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDActionPerformed
         // TODO add your handling code here:
         try {
-            new WriteStudent(frameManager.getAll(), "Student.xlsx");
+            new WriteStudent(service.getAll(), "Student.xlsx");
             JOptionPane.showMessageDialog(rootPane, "Tải xuống thành công");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error", "Error", JOptionPane.ERROR_MESSAGE);

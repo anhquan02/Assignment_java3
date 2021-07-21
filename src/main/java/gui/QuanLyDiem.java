@@ -20,8 +20,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class QuanLyDiem extends javax.swing.JInternalFrame {
 
-    GradeDAO dbManager;
-    ServiceGrade frameManager;
+    GradeDAO dao;
+    ServiceGrade service;
     DefaultTableModel model;
 
     /**
@@ -31,16 +31,16 @@ public class QuanLyDiem extends javax.swing.JInternalFrame {
         initComponents();
 //        this.setLocationRelativeTo(null);
         model = (DefaultTableModel) tblSinhVien.getModel();
-        dbManager = new GradeDAO();
-        frameManager = new ServiceGrade();
-        frameManager.lst = dbManager.getAll();
+        dao = new GradeDAO();
+        service = new ServiceGrade();
+        service.lst = dao.getAll();
         fillToTable();
-//        new WriteGrade(frameManager.getAll(), "Grade.xlsx");
+//        new WriteGrade(service.getAll(), "Grade.xlsx");
     }
 
     public void fillToTable() {
         model.setRowCount(0);
-        for (Grade x : frameManager.getAll()) {
+        for (Grade x : service.getAll()) {
             model.addRow(new Object[]{x.getMasv(), x.getHoTen(), x.getTiengAnh(), x.getTinHoc(), x.getGDTC()});
         }
     }
@@ -416,10 +416,10 @@ public class QuanLyDiem extends javax.swing.JInternalFrame {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
         try {
-            for (Grade x : frameManager.getAll()) {
+            for (Grade x : service.getAll()) {
                 if (txtSearch.getText().equalsIgnoreCase(x.getMasv())) {
                     showDetail(x);
-                    index = frameManager.getAll().indexOf(x);
+                    index = service.getAll().indexOf(x);
                     isExist = true;
                     return;
                 }
@@ -466,8 +466,8 @@ public class QuanLyDiem extends javax.swing.JInternalFrame {
             float tinhoc = Float.parseFloat(txtTinHoc.getText());
             float gdtc = Float.parseFloat(txtGDTC.getText());
             Grade gr = new Grade(masv, hoTen, tienganh, tinhoc, gdtc);
-            if (dbManager.create(gr)) {
-                frameManager.create(gr);
+            if (dao.create(gr)) {
+                service.create(gr);
                 JOptionPane.showMessageDialog(rootPane, "Thêm thành công");
                 fillToTable();
                 txtMaSV.setEditable(false);
@@ -493,8 +493,8 @@ public class QuanLyDiem extends javax.swing.JInternalFrame {
             }
             int chon = JOptionPane.showConfirmDialog(this, "Delete", "Delete", JOptionPane.YES_NO_OPTION);
             if (chon == JOptionPane.YES_OPTION) {
-//                dbManager.delete(dbManager.getAll().get(index));
-                frameManager.delete(frameManager.getAll().get(index));
+//                dao.delete(dao.getAll().get(index));
+                service.delete(service.getAll().get(index));
                 index = -1;
                 fillToTable();
             }
@@ -521,8 +521,8 @@ public class QuanLyDiem extends javax.swing.JInternalFrame {
                 t.setTiengAnh(tiengAnh);
                 t.setTinHoc(tinHoc);
                 t.setGDTC(gdtc);
-                dbManager.update(t, index);
-                frameManager.update(t, index);
+                dao.update(t, index);
+                service.update(t, index);
                 showDetail(t);
                 JOptionPane.showMessageDialog(this, "Cập nhật thành công");
             } else {
@@ -541,7 +541,7 @@ public class QuanLyDiem extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         try {
             index = 0;
-            showDetail(frameManager.getAll().get(index));
+            showDetail(service.getAll().get(index));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -553,7 +553,7 @@ public class QuanLyDiem extends javax.swing.JInternalFrame {
         try {
             if (index > 0) {
                 index--;
-                showDetail(frameManager.getAll().get(index));
+                showDetail(service.getAll().get(index));
             } else {
                 return;
             }
@@ -566,9 +566,9 @@ public class QuanLyDiem extends javax.swing.JInternalFrame {
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         // TODO add your handling code here:
         try {
-            if (index < frameManager.getAll().size() - 1) {
+            if (index < service.getAll().size() - 1) {
                 index++;
-                showDetail(frameManager.getAll().get(index));
+                showDetail(service.getAll().get(index));
             } else {
                 return;
             }
@@ -581,8 +581,8 @@ public class QuanLyDiem extends javax.swing.JInternalFrame {
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
         // TODO add your handling code here:
         try {
-            index = frameManager.getAll().size() - 1;
-            showDetail(frameManager.getAll().get(index));
+            index = service.getAll().size() - 1;
+            showDetail(service.getAll().get(index));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -593,7 +593,7 @@ public class QuanLyDiem extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         try {
             index = tblSinhVien.getSelectedRow();
-            showDetail(frameManager.getAll().get(index));
+            showDetail(service.getAll().get(index));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -604,7 +604,7 @@ public class QuanLyDiem extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         try {
             ReadGrade reader = new ReadGrade();
-            frameManager.lst = (ArrayList<Grade>) reader.readExcel("Grade.xlsx");
+            service.lst = (ArrayList<Grade>) reader.readExcel("Grade.xlsx");
             fillToTable();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error", "Error", JOptionPane.ERROR_MESSAGE);
@@ -615,8 +615,8 @@ public class QuanLyDiem extends javax.swing.JInternalFrame {
     private void btnDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDActionPerformed
         // TODO add your handling code here:
         try {
-            dbManager.read();
-            new WriteGrade(dbManager.getAll(), "Grade.xlsx");
+            dao.read();
+            new WriteGrade(dao.getAll(), "Grade.xlsx");
             JOptionPane.showMessageDialog(rootPane, "Tải xuống thành công");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error", "Error", JOptionPane.ERROR_MESSAGE);
