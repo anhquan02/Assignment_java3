@@ -60,7 +60,7 @@ public class ReadStudent implements ReadExcel<Student> {
                     continue;
                 }
                 // Get all cells
-                Iterator<Cell> cellIterator = nextRow.cellIterator();
+                Iterator<Cell> cellIterator = nextRow.cellIterator();                
                 // Read cells and set value for book object
                 Student st = new Student();
                 while (cellIterator.hasNext()) {
